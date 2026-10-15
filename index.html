@@ -22,99 +22,112 @@
     </head>
     <main class="main-container">
       <section class="form-container">
-        <h3 class="panel-title">Record Bay Information</h2>
+        <h3 class="panel-title">Record Bay Information</h3>
+        <div
+          id="form-error-banner"
+          class="alert alert-danger hidden"
+          role="alert"
+        ></div>
         <form action="#" id="sensor-form" novalidate class="telemetry-form">
-          <div class="form-group">
-            <label for="bay-id" class="form-label">
-              Bay ID<span class="required">*</span>
-            </label>
-            <input
-              type="text"
-              name="bay-id"
-              id="bay-id"
-              placeholder="163gha61"
-              required
-              class="form-control"
-            />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="bay-id" class="form-label">
+                Bay ID<span class="required">*</span>
+              </label>
+              <input
+                type="text"
+                name="bay-id"
+                id="bay-id"
+                placeholder="163gha61"
+                required
+                class="form-control"
+              />
+            </div>
+            <div class="form-group">
+              <label for="ph" class="form-label">
+                pH Level<span class="required">*</span>
+              </label>
+              <input
+                type="number"
+                name="ph"
+                id="ph"
+                min="0"
+                max="14"
+                step="0.1"
+                placeholder="7"
+                required
+                class="form-control"
+              />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="ph" class="form-label">
-              pH Level<span class="required">*</span>
-            </label>
-            <input
-              type="number"
-              name="ph"
-              id="ph"
-              min="0"
-              max="14"
-              step="0.1"
-              placeholder="7"
-              required
-              class="form-control"
-            />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ec" class="form-label">
+                Electrical Conductivity (EC) (mS/cm)<span class="required"
+                  >*</span
+                >
+              </label>
+              <input
+                type="number"
+                name="ec"
+                id="ec"
+                min="0"
+                max="10"
+                step="0.1"
+                placeholder="4.5"
+                required
+                class="form-control"
+              />
+            </div>
+            <div class="form-group">
+              <label for="temperature" class="form-label">
+                Temperature (°F)<span class="required">*</span>
+              </label>
+              <input
+                type="number"
+                name="temperature"
+                id="temperature"
+                min="14"
+                max="140"
+                step="0.1"
+                placeholder="55"
+                required
+                class="form-control"
+              />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="ec" class="form-label">
-              Electrical Conductivity (EC) (mS/cm)<span class="required"
-                >*</span
-              >
-            </label>
-            <input
-              type="number"
-              name="ec"
-              id="ec"
-              min="0"
-              max="10"
-              step="0.1"
-              placeholder="4.5"
-              required
-              class="form-control"
-            />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="humidity" class="form-label">
+                Relative Humidity (%)<span class="required">*</span>
+              </label>
+              <input
+                type="number"
+                name="humidity"
+                id="humidity"
+                min="0"
+                max="100"
+                step="0.1"
+                placeholder="75"
+                required
+                class="form-control"
+              />
+            </div>
+            <button
+              type="submit"
+              id="btn-submit"
+              class="btn btn-primary btn-block"
+            >
+              Submit Sensor Record
+            </button>
           </div>
-          <div class="form-group">
-            <label for="temperature" class="form-label">
-              Temperature (°F)<span class="required">*</span>
-            </label>
-            <input
-              type="number"
-              name="temperature"
-              id="temperature"
-              min="14"
-              max="140"
-              step="0.1"
-              placeholder="55"
-              required
-              class="form-control"
-            />
-          </div>
-          <div class="form-group">
-            <label for="humidity" class="form-label">
-              Relative Humidity (%)<span class="required">*</span>
-            </label>
-            <input
-              type="number"
-              name="humidity"
-              id="humidity"
-              min="0"
-              max="100"
-              step="0.1"
-              placeholder="75"
-              required
-              class="form-control"
-            />
-          </div>
-          <button
-            type="submit"
-            id="btn-submit"
-            class="btn btn-primary btn-block"
-          >
-            Submit Sensor Record
-          </button>
         </form>
       </section>
       <section class="records-container">
         <div class="records-header">
-          <h3 class="panel-title">Greenhouse Queue</h2>
+          <h3 class="panel-title">Greenhouse Queue</h3>
           <button id="clear-all-btn" class="btn btn-outline-danger btn-sm">
             Purge Queue
           </button>
@@ -123,7 +136,7 @@
           <span class="empty-icon">📋</span>
           <p>No active greenhouse records logged</p>
         </div>
-        <div class="telemtry-container"></div>
+        <div class="telemtry-container" id="telemetry-records"></div>
       </section>
     </main>
     <footer class="site-footer">
