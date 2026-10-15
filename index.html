@@ -11,9 +11,9 @@
       <header class="site-header">
         <div class="brand-logo">
           🌱
-          <h1 class="brand">
+          <h2 class="brand">
             TerraPulse <span class="brand-sub">Greenhouse Sensor Logger</span>
-          </h1>
+          </h2>
         </div>
         <div class="active-queue">
           Active Queue: <span id="queue-number" class="badge-count">0</span>
@@ -22,8 +22,8 @@
     </head>
     <main class="main-container">
       <section class="form-container">
-        <h2 class="panel-title">Record Bay Information</h2>
-        <form action="#" id="sensor-form" novalidate>
+        <h3 class="panel-title">Record Bay Information</h2>
+        <form action="#" id="sensor-form" novalidate class="telemetry-form">
           <div class="form-group">
             <label for="bay-id" class="form-label">
               Bay ID<span class="required">*</span>
@@ -34,6 +34,7 @@
               id="bay-id"
               placeholder="163gha61"
               required
+              class="form-control"
             />
           </div>
           <div class="form-group">
@@ -49,6 +50,7 @@
               step="0.1"
               placeholder="7"
               required
+              class="form-control"
             />
           </div>
           <div class="form-group">
@@ -66,6 +68,7 @@
               step="0.1"
               placeholder="4.5"
               required
+              class="form-control"
             />
           </div>
           <div class="form-group">
@@ -81,6 +84,7 @@
               step="0.1"
               placeholder="55"
               required
+              class="form-control"
             />
           </div>
           <div class="form-group">
@@ -96,6 +100,7 @@
               step="0.1"
               placeholder="75"
               required
+              class="form-control"
             />
           </div>
           <button
@@ -109,7 +114,7 @@
       </section>
       <section class="records-container">
         <div class="records-header">
-          <h2 class="panel-title">Greenhouse Queue</h2>
+          <h3 class="panel-title">Greenhouse Queue</h2>
           <button id="clear-all-btn" class="btn btn-outline-danger btn-sm">
             Purge Queue
           </button>
