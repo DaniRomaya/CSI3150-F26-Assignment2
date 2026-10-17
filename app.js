@@ -38,6 +38,7 @@
     }
   }
 
+  // Status evaluation: critical, optimal, critical hazard
   function evaluateStatus(ph, ec, temperature, humidity) {
     if (
       (ph < 5.0 || ph > 7.5) &&
@@ -45,7 +46,7 @@
       (ec < 0.2 || ec > 4.5) &&
       (humidity < 30 || humidity > 90)
     ) {
-      return { level: "critical", label: "Critical" };
+      return { level: "critical", label: "Critical Hazard" };
     }
     if (
       ph >= 5.5 &&
@@ -62,6 +63,7 @@
     return { level: "warning", label: "Warning" };
   }
 
+  // Dynamic form input error validation
   function validateInput(data) {
     const errors = [];
 
@@ -95,6 +97,7 @@
     return errors;
   }
 
+  // Dynamic input field error validation
   function validateField(input, min, max) {
     const value = input.value.trim();
     const number = Number(value);
@@ -129,6 +132,7 @@
     });
   });
 
+  // form submit button event handling
   sensorForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -172,6 +176,7 @@
     inputBayId.focus();
   });
 
+  // Delete individual logs button event handling
   telemetryRecords.addEventListener("click", function (event) {
     const target = event.target;
     if (target.classList.contains("btn-delete-log")) {
@@ -184,6 +189,7 @@
     }
   });
 
+  // Clear all logs button event handling
   clearAllBtn.addEventListener("click", (event) => {
     if (records.length === 0) return;
     if (confirm("Are you sure you want to delete all greenhouse records?")) {
@@ -193,6 +199,7 @@
     }
   });
 
+  // Dyanmic rendering of telemetry cards
   function render() {
     queueNumber.textContent = records.length;
 
