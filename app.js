@@ -1,5 +1,5 @@
 (function () {
-  "use strict()";
+  "use strict";
 
   const STORAGE_KEY = "terrapulse_telemetry_records_v1";
 
@@ -68,32 +68,45 @@
     const errors = [];
 
     if (!data.bayID.trim()) {
-      errors.push("Bay Id is a required field");
-    }
-
-    if (isNaN(data.ph) || data.ph < 0 || data.ph > 14) {
-      errors.push("PH must be a number and between 0 to 14");
-    }
-
-    if (isNaN(data.ec) || data.ec < 0 || data.ec > 10) {
-      errors.push(
-        "Electrical Conductivity (EC) must be a number and between 0 to 10 mS/cm",
-      );
+      errors.push("Bay ID is a required field.");
     }
 
     if (
-      isNaN(data.temperature) ||
+      data.ph === "" ||
+      !Number.isFinite(data.ph) ||
+      data.ph < 0 ||
+      data.ph > 14
+    ) {
+      errors.push("pH must be a number between 0 and 14.");
+    }
+
+    if (
+      data.ec === "" ||
+      !Number.isFinite(data.ec) ||
+      data.ec < 0 ||
+      data.ec > 10
+    ) {
+      errors.push("EC must be a number between 0 and 10 mS/cm.");
+    }
+
+    if (
+      data.temperature === "" ||
+      !Number.isFinite(data.temperature) ||
       data.temperature < 14 ||
       data.temperature > 140
     ) {
-      errors.push(
-        "Temperature must be a number and between 14 to 140 degree F",
-      );
+      errors.push("Temperature must be a number between 14 and 140 degree F.");
     }
 
-    if (isNaN(data.humidity) || data.humidity < 0 || data.humidity > 100) {
-      errors.push("Relative Humidity must be a number and between 0 to 100 %");
+    if (
+      data.humidity === "" ||
+      !Number.isFinite(data.humidity) ||
+      data.humidity < 0 ||
+      data.humidity > 100
+    ) {
+      errors.push("Relative humidity must be a number between 0 and 100 %.");
     }
+
     return errors;
   }
 
@@ -106,29 +119,65 @@
       value === "" || !Number.isFinite(number) || number < min || number > max;
 
     input.classList.toggle("input-invalid", invalid);
+    return invalid;
   }
 
-  // Check values immediately as the technician types
-  inputPh.addEventListener("input", () => {
+  // Highlight every invalid field when the form is submitted
+  function highlightAllInvalidFields() {
+    // Check Bay ID
+    inputBayId.classList.toggle(
+      "input-invalid",
+      inputBayId.value.trim() === "",
+    );
+
+    // Check every sensor reading
     validateField(inputPh, 0, 14);
-  });
-
-  inputEc.addEventListener("input", () => {
     validateField(inputEc, 0, 10);
-  });
-
-  inputTemp.addEventListener("input", () => {
     validateField(inputTemp, 14, 140);
-  });
-
-  inputHumidity.addEventListener("input", () => {
     validateField(inputHumidity, 0, 100);
-  });
+  }
 
-  // Clear invalid styling when the form is reset
-  sensorForm.addEventListener("reset", () => {
-    [inputPh, inputEc, inputTemp, inputHumidity].forEach((input) => {
-      input.classList.remove("input-invalid");
+  // Check all fields immediately as the user types
+
+  // Validate the field currently being edited
+  function validateCurrentField(input) {
+    if (input === inputBayId) {
+      const invalid = input.value.trim() === "";
+      input.classList.toggle("input-invalid", invalid);
+    } else if (input === inputPh) {
+      validateField(inputPh, 0, 14);
+    } else if (input === inputEc) {
+      validateField(inputEc, 0, 10);
+    } else if (input === inputTemp) {
+      validateField(inputTemp, 14, 140);
+    } else if (input === inputHumidity) {
+      validateField(inputHumidity, 0, 100);
+    }
+
+    // Update the banner using the current form values
+    const formData = {
+      bayID: inputBayId.value,
+      ph: inputPh.value.trim() === "" ? NaN : Number(inputPh.value),
+      ec: inputEc.value.trim() === "" ? NaN : Number(inputEc.value),
+      temperature:
+        inputTemp.value.trim() === "" ? NaN : Number(inputTemp.value),
+      humidity:
+        inputHumidity.value.trim() === "" ? NaN : Number(inputHumidity.value),
+    };
+
+    const errors = validateInput(formData);
+
+    if (errors.length > 0) {
+      displayError(errors.join(" "));
+    } else {
+      hideError();
+    }
+  }
+
+  // Validate each field as it changes
+  [inputBayId, inputPh, inputEc, inputTemp, inputHumidity].forEach((input) => {
+    input.addEventListener("input", () => {
+      validateCurrentField(input);
     });
   });
 
@@ -152,10 +201,10 @@
     const validationErrors = validateInput(formData);
 
     if (validationErrors.length > 0) {
+      highlightAllInvalidFields();
       displayError(validationErrors.join(" "));
       return;
     }
-
     hideError();
 
     formData.status = evaluateStatus(
@@ -199,7 +248,7 @@
     }
   });
 
-  // Dyanmic rendering of telemetry cards
+  // Dyanmic rendering of telemetry
   function render() {
     queueNumber.textContent = records.length;
 

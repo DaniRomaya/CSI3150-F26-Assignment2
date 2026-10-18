@@ -161,6 +161,10 @@ body {
   border-color: var(--critical-hazard);
 }
 
+#bay-id.input-invalid {
+  border-color: var(--critical-hazard);
+}
+
 .alert {
   padding: 0.75rem 1rem;
   border-radius: 6px;
